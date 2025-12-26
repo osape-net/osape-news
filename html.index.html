@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSAPE NEWS - Share Your News</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2d6a4f;
+            --accent-color: #e63946;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #0a2342);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .content-area {
+            flex: 3;
+        }
+
+        .sidebar {
+            flex: 1;
+        }
+
+        /* News Form */
+        .news-form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .news-form-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0a2342;
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Media Upload Preview */
+        .media-preview {
+            margin-top: 15px;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .preview-item img, .preview-item video {
+            max-width: 150px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .remove-preview {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* News Feed */
+        .news-feed {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .news-feed h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .news-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .news-meta {
+            display: flex;
+            gap: 15px;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .news-content {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .news-media {
+            margin-top: 20px;
+        }
+
+        .news-media img, .news-media video {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .news-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .news-actions button {
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .news-actions button:hover {
+            color: var(--primary-color);
+        }
+
+        /* Sidebar */
+        .sidebar-widget {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-widget h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .categories-list, .trending-list {
+            list-style: none;
+        }
+
+        .categories-list li, .trending-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .categories-list li:last-child, .trending-list li:last-child {
+            border-bottom: none;
+        }
+
+        .categories-list a, .trending-list a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+        }
+
+        .categories-list a:hover, .trending-list a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .category-count {
+            float: right;
+            background-color: #e9ecef;
+            color: var(--gray-color);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .news-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .news-form-container, .news-feed, .sidebar-widget {
+                padding: 20px 15px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-newspaper"></i>
+                <h1>OSAPE <span>NEWS</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-fire"></i> Trending</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper"></i> Latest</a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <div class="content-area">
+            <!-- News Sharing Form -->
+            <section class="news-form-container">
+                <h2><i class="fas fa-pen-alt"></i> Share Your News</h2>
+                <form id="newsForm">
+                    <div class="form-group">
+                        <label for="newsTitle">News Title</label>
+                        <input type="text" id="newsTitle" class="form-control" placeholder="Enter a catchy title for your news" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newsCategory">Category</label>
+                        <select id="newsCategory" class="form-control" required>
+                            <option value="">Select a category</option>
+                            <option value="politics">Politics</option>
+                            <option value="technology">Technology</option>
+                            <option value="sports">Sports</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="health">Health & Wellness</option>
+                            <option value="business">Business</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newsContent">News Content</label>
+                        <textarea id="newsContent" class="form-control" rows="5" placeholder="Write your news story here..." required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="imageUpload"><i class="fas fa-image"></i> Add Images</label>
+                            <input type="file" id="imageUpload" class="form-control" accept="image/*" multiple>
+                            <div class="media-preview" id="imagePreview"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="videoUpload"><i class="fas fa-video"></i> Add Videos</label>
+                            <input type="file" id="videoUpload" class="form-control" accept="video/*">
+                            <div class="media-preview" id="videoPreview"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Publish News</button>
+                        <button type="button" id="clearForm" class="btn btn-secondary"><i class="fas fa-trash"></i> Clear Form</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- News Feed -->
+            <section class="news-feed">
+                <h2><i class="fas fa-rss"></i> Latest News</h2>
+                <div id="newsFeed">
+                    <!-- News items will be dynamically added here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-chart-line"></i> Trending Categories</h3>
+                <ul class="categories-list">
+                    <li><a href="#">Technology <span class="category-count">24</span></a></li>
+                    <li><a href="#">Politics <span class="category-count">18</span></a></li>
+                    <li><a href="#">Sports <span class="category-count">32</span></a></li>
+                    <li><a href="#">Entertainment <span class="category-count">21</span></a></li>
+                    <li><a href="#">Health & Wellness <span class="category-count">15</span></a></li>
+                    <li><a href="#">Business <span class="category-count">12</span></a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-bolt"></i> Trending Now</h3>
+                <ul class="trending-list">
+                    <li><a href="#">New Breakthrough in Renewable Energy</a></li>
+                    <li><a href="#">Local Team Wins National Championship</a></li>
+                    <li><a href="#">Tech Giant Announces Revolutionary Product</a></li>
+                    <li><a href="#">Health Officials Issue New Guidelines</a></li>
+                    <li><a href="#">Market Trends Show Significant Growth</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3><i class="fas fa-info-circle"></i> About OSAPE NEWS</h3>
+                <p>OSAPE NEWS is a community-driven platform where you can share and discover news from around the world. Share text, images, and videos to keep everyone informed.</p>
+                <p>Our mission is to democratize news sharing and provide a platform for diverse voices.</p>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>OSAPE NEWS</h3>
+                    <p>A platform for sharing and discovering news from around the world. Stay informed, stay connected.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" style="color: white; text-decoration: none;">About Us</a></p>
+                    <p><a href="#" style="color: white; text-decoration: none;">Contact</a></p>
+                    <p><a href="#" style="color: white; text-decoration: none;">Privacy Policy</a></p>
+                    <p><a href="#" style="color: white; text-decoration: none;">Terms of Service</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 News Street, Media City</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> contact@osapenews.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 OSAPE NEWS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Sample news data for initial display
+        const sampleNews = [
+            {
+                id: 1,
+                title: "Breakthrough in Renewable Energy Storage",
+                category: "technology",
+                content: "Scientists have developed a new battery technology that could revolutionize renewable energy storage, making solar and wind power more reliable than ever before.",
+                date: "2023-10-15",
+                author: "Alex Johnson",
+                likes: 42,
+                comments: 8,
+                shares: 15,
+                images: [],
+                videos: []
+            },
+            {
+                id: 2,
+                title: "Local Team Wins National Championship",
+                category: "sports",
+                content: "After an intense final match, our city's basketball team clinched the national championship title for the first time in 20 years.",
+                date: "2023-10-14",
+                author: "Maria Rodriguez",
+                likes: 89,
+                comments: 23,
+                shares: 45,
+                images: ['https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'],
+                videos: []
+            },
+            {
+                id: 3,
+                title: "New Health Guidelines Released",
+                category: "health",
+                content: "Health officials have issued updated guidelines for nutrition and exercise, emphasizing the importance of balanced diets and regular physical activity.",
+                date: "2023-10-13",
+                author: "Dr. James Wilson",
+                likes: 56,
+                comments: 12,
+                shares: 21,
+                images: [],
+                videos: []
+            }
+        ];
+
+        // DOM Elements
+        const newsForm = document.getElementById('newsForm');
+        const newsFeed = document.getElementById('newsFeed');
+        const clearFormBtn = document.getElementById('clearForm');
+        const imageUpload = document.getElementById('imageUpload');
+        const videoUpload = document.getElementById('videoUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const videoPreview = document.getElementById('videoPreview');
+
+        // Store uploaded files
+        let uploadedImages = [];
+        let uploadedVideo = null;
+
+        // Initialize with sample news
+        document.addEventListener('DOMContentLoaded', () => {
+            sampleNews.forEach(news => {
+                addNewsToFeed(news);
+            });
+        });
+
+        // Handle news form submission
+        newsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('newsTitle').value;
+            const category = document.getElementById('newsCategory').value;
+            const content = document.getElementById('newsContent').value;
+            
+            // Create new news object
+            const newNews = {
+                id: Date.now(),
+                title: title,
+                category: category,
+                content: content,
+                date: new Date().toISOString().split('T')[0],
+                author: "You",
+                likes: 0,
+                comments: 0,
+                shares: 0,
+                images: uploadedImages,
+                videos: uploadedVideo ? [uploadedVideo] : []
+            };
+            
+            // Add to feed
+            addNewsToFeed(newNews);
+            
+            // Reset form
+            clearForm();
+            
+            // Show success message
+            alert('Your news has been published successfully!');
+        });
+
+        // Clear form function
+        clearFormBtn.addEventListener('click', clearForm);
+
+        function clearForm() {
+            newsForm.reset();
+            uploadedImages = [];
+            uploadedVideo = null;
+            imagePreview.innerHTML = '';
+            videoPreview.innerHTML = '';
+        }
+
+        // Handle image upload and preview
+        imageUpload.addEventListener('change', function() {
+            const files = this.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!file.type.match('image.*')) continue;
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const imgSrc = e.target.result;
+                    uploadedImages.push(imgSrc);
+                    
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = 'News image';
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-preview';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    removeBtn.addEventListener('click', function() {
+                        previewItem.remove();
+                        uploadedImages = uploadedImages.filter(src => src !== imgSrc);
+                    });
+                    
+                    previewItem.appendChild(img);
+                    previewItem.appendChild(removeBtn);
+                    imagePreview.appendChild(previewItem);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Reset file input to allow uploading same file again
+            this.value = '';
+        });
+
+        // Handle video upload and preview
+        videoUpload.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file.type.match('video.*')) return;
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const videoSrc = e.target.result;
+                uploadedVideo = videoSrc;
+                
+                videoPreview.innerHTML = '';
+                
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                
+                const video = document.createElement('video');
+                video.src = videoSrc;
+                video.controls = true;
+                video.style.maxWidth = '200px';
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-preview';
+                removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                removeBtn.addEventListener('click', function() {
+                    previewItem.remove();
+                    uploadedVideo = null;
+                });
+                
+                previewItem.appendChild(video);
+                previewItem.appendChild(removeBtn);
+                videoPreview.appendChild(previewItem);
+            };
+            
+            reader.readAsDataURL(file);
+            
+            // Reset file input
+            this.value = '';
+        });
+
+        // Function to add news to feed
+        function addNewsToFeed(news) {
+            const newsItem = document.createElement('div');
+            newsItem.className = 'news-item';
+            newsItem.id = `news-${news.id}`;
+            
+            // Format category for display
+            const categoryDisplay = news.category.charAt(0).toUpperCase() + news.category.slice(1);
+            
+            // Create media HTML
+            let mediaHTML = '';
+            if (news.images.length > 0) {
+                news.images.forEach(img => {
+                    mediaHTML += `<img src="${img}" alt="News image">`;
+                });
+            }
+            
+            if (news.videos.length > 0) {
+                news.videos.forEach(vid => {
+                    mediaHTML += `<video controls><source src="${vid}" type="video/mp4">Your browser does not support the video tag.</video>`;
+                });
+            }
+            
+            newsItem.innerHTML = `
+                <div class="news-header">
+                    <h3 class="news-title">${news.title}</h3>
+                    <span class="news-category" style="background-color: ${getCategoryColor(news.category)}; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.8rem;">${categoryDisplay}</span>
+                </div>
+                <div class="news-meta">
+                    <span><i class="far fa-calendar"></i> ${news.date}</span>
+                    <span><i class="fas fa-user"></i> ${news.author}</span>
+                </div>
+                <div class="news-content">
+                    ${news.content}
+                </div>
+                ${mediaHTML ? `<div class="news-media">${mediaHTML}</div>` : ''}
+                <div class="news-actions">
+                    <button class="like-btn" data-id="${news.id}"><i class="far fa-thumbs-up"></i> Like (${news.likes})</button>
+                    <button class="comment-btn" data-id="${news.id}"><i class="far fa-comment"></i> Comment (${news.comments})</button>
+                    <button class="share-btn" data-id="${news.id}"><i class="fas fa-share"></i> Share (${news.shares})</button>
+                </div>
+            `;
+            
+            // Add to top of feed
+            newsFeed.prepend(newsItem);
+            
+            // Add event listeners for buttons
+            const likeBtn = newsItem.querySelector('.like-btn');
+            const commentBtn = newsItem.querySelector('.comment-btn');
+            const shareBtn = newsItem.querySelector('.share-btn');
+            
+            likeBtn.addEventListener('click', function() {
+                news.likes++;
+                this.innerHTML = `<i class="far fa-thumbs-up"></i> Like (${news.likes})`;
+            });
+            
+            commentBtn.addEventListener('click', function() {
+                const comment = prompt('Enter your comment:');
+                if (comment) {
+                    news.comments++;
+                    this.innerHTML = `<i class="far fa-comment"></i> Comment (${news.comments})`;
+                    alert('Comment added successfully!');
+                }
+            });
+            
+            shareBtn.addEventListener('click', function() {
+                news.shares++;
+                this.innerHTML = `<i class="fas fa-share"></i> Share (${news.shares})`;
+                alert('News shared successfully!');
+            });
+        }
+
+        // Helper function to get category color
+        function getCategoryColor(category) {
+            const colors = {
+                'politics': '#3a86ff',
+                'technology': '#8338ec',
+                'sports': '#fb5607',
+                'entertainment': '#ff006e',
+                'health': '#06d6a0',
+                'business': '#118ab2'
+            };
+            
+            return colors[category] || '#6c757d';
+        }
+    </script>
+</body>
+</html>
